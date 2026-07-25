@@ -1,0 +1,64 @@
+import mongoose, { Document, Schema } from "mongoose";
+import bcrypt from "bcryptjs";
+
+
+export enum UserRole {
+    EMPLOYEE = 'employee',
+    MANAGER = "manager",
+    ADMIN = "admin"
+}
+
+export interface IUser extends Document {
+
+    userName: string;
+    password?: string;
+    role: UserRole;
+
+
+}
+
+const userSchema = new Schema<IUser>({
+
+    userName: {
+        type: String,
+        required: [true, "First name is required"],
+        unique: true,
+        trim: true
+    },
+
+    password: {
+        type: String,
+        required: [true, "Password is required"],
+        minlength: [8, "Password must be at least 8 characters"],
+        select: false, // Don't return password in queries by default
+    },
+
+    role: {
+        type: String,
+        enum: Object.values(UserRole),
+        default: UserRole.ADMIN,
+    },
+
+
+
+
+}, { timestamps: true }
+)
+
+
+// Encrypt password before saving
+userSchema.pre("save", async function () {
+    if (!this.isModified("password") || !this.password) {
+        return;
+    }
+
+    try {
+        const salt = await bcrypt.genSalt(10);
+
+        this.password = await bcrypt.hash(this.password, salt);
+    } catch (error) {
+        throw error;
+    }
+});
+
+export const User = mongoose.model<IUser>("User", userSchema);

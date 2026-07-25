@@ -3,6 +3,8 @@ import config from "./config";
 import cors from "cors";
 import { connectDB } from "./config/db";
 import { logger } from "./utils/logger";
+import routes from "./routes";
+
 
 
 const app: Express = express()
@@ -30,6 +32,10 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Connect to MongoDB
 connectDB();
+
+
+// API Routes
+app.use(config.API_PREFIX, routes);
 
 
 app.get('/', (req, res) => {
