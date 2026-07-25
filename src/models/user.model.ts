@@ -11,6 +11,7 @@ export enum UserRole {
 export interface IUser extends Document {
 
     userName: string;
+    email: string;
     password?: string;
     role: UserRole;
 
@@ -24,6 +25,15 @@ const userSchema = new Schema<IUser>({
         required: [true, "First name is required"],
         unique: true,
         trim: true
+    },
+
+    email: {
+        type: String,
+        required: [true, "Email is required"],
+        unique: true,
+        lowercase: true,
+        trim: true,
+        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
     },
 
     password: {

@@ -18,12 +18,27 @@ class AuthService {
 
     async register(userData: RegisterUserInput): Promise<RegisterAuthResponse> {
 
-        const { userName, password, role } = userData;
+        const { userName, email, password, role } = userData;
+
+        const existingUser = await User.findOne({ email })
+        if (existingUser) {
+            throw new AppError("User with this email already exists", 400);
+        }
+
+        // Create new user
+        const user = await User.create({
+            userName,
+            email,
+            password,
+            role
+        });
+
 
         return {
             success: true,
             user: {
-                userName: user.firstName,
+                userName: user.userName,
+                email: user.email,
                 role: user.role,
             }
         };
@@ -32,7 +47,7 @@ class AuthService {
 
     async login(loginData: LoginUserInput): Promise<AuthResponse> {
 
-        const { userName, password } = loginData;
+        const { userName, email, password } = loginData;
 
 
         return {
@@ -40,7 +55,8 @@ class AuthService {
             accesstoken: accessToken,
             refreshToken,
             user: {
-                userName: user.firstName,
+                userName: user.userName,
+                email: user.email,
                 role: user.role,
             }
         };

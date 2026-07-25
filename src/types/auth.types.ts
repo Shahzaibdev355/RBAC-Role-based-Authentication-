@@ -1,8 +1,11 @@
+import { UserRole } from "../models/user.model";
+
 
 export interface RegisterUserInput{
     userName: string;
+    email : string;
     password: string;
-    role: string;
+    role: UserRole;
 }
 
 
@@ -10,7 +13,8 @@ export interface RegisterAuthResponse {
     success: boolean;
     user: {
       userName: string;
-      role: string;
+      email: string;
+      role: UserRole;
     };
   }
   
@@ -18,6 +22,7 @@ export interface RegisterAuthResponse {
 
 export interface LoginUserInput{
     userName: string;
+    email: string;
     password: string;
 }
 
@@ -28,6 +33,7 @@ export interface AuthResponse {
     refreshToken: string;
     user: {
       userName: string;
-      role: string;
+      email: string;
+      role: UserRole;
     };
   }
