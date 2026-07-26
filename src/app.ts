@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectDB } from "./config/db";
 import { logger } from "./utils/logger";
 import routes from "./routes";
+import { errorMiddleware } from "./middleware/error.middleware";
 
 
 
@@ -41,6 +42,9 @@ app.use(config.API_PREFIX, routes);
 app.get('/', (req, res) => {
     res.json({ message: 'backend is running' })
 })
+
+// Error handling middleware
+app.use(errorMiddleware);
 
 
 try {

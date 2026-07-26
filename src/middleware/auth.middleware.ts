@@ -84,6 +84,3 @@ export const verifyToken = async (
 }
 
 
-// export const authorize = () => {
-
-// }
