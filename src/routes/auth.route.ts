@@ -1,16 +1,16 @@
 import express from "express";
-import { register, login } from "@/controllers/auth.controller";
+import { register, login } from "../controllers/auth.controller";
+import { validate } from "../middleware/validator.middleware";
+import { loginSchema, registerSchema } from "@/validations/auth.validators";
 
 const router = express.Router()
 
 
 // Public routes
 
-// validate(registerSchema)
-// validate(loginSchema)
 
-router.post("/register",  register);
-router.post("/login", login);
+router.post("/register",validate(registerSchema),  register);
+router.post("/login", validate(loginSchema), login);
 
 
 export default router;

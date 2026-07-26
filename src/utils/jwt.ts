@@ -4,8 +4,8 @@ import { IUser } from "../models/user.model";
 
 // Generate JWT access token
 export const generateAccessToken = (user: IUser): string => {
-  return jwt.sign({ id: user._id?.toString() }, config.JWT_SECRET, {
-    expiresIn: "7d",
+  return jwt.sign({ id: user._id?.toString(), role: user.role }, config.JWT_SECRET, {
+    expiresIn: "1h",
   });
 };
 
