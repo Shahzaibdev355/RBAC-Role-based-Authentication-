@@ -71,12 +71,17 @@ class AuthService {
 
         // Generate tokens  
         const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
+
+        // Store refresh token
+        user.refreshToken = refreshToken;
+        await user.save();
 
 
         return {
             success: true,
             accesstoken: accessToken,
-            // refreshToken,
+            refreshToken,
             user: {
                 userName: user.userName,
                 email: user.email,

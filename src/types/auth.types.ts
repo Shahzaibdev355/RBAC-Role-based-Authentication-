@@ -30,7 +30,7 @@ export interface LoginUserInput{
 export interface AuthResponse {
     success: boolean;
     accesstoken: string;
-    // refreshToken: string;
+    refreshToken: string;
     user: {
       userName: string;
       email: string;

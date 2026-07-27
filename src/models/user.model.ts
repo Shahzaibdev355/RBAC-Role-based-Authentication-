@@ -14,6 +14,7 @@ export interface IUser extends Document {
     email: string;
     password?: string;
     role: UserRole;
+    refreshToken?: string;
 
     matchPassword(enteredPassword: string): Promise<boolean>;
 
@@ -50,6 +51,10 @@ const userSchema = new Schema<IUser>({
         default: UserRole.ADMIN,
     },
 
+    refreshToken: {
+        type: String,
+        select: false,
+    }
 
 
 
